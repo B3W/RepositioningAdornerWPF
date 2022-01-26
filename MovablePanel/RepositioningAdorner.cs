@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -17,11 +13,11 @@ namespace MovablePanel
    /// </summary>
    public class RepositioningAdornerConfig
    {
-      public int ThumbThickness { get; } = 6;
+      public int ThumbThickness { get; } = 8;
 
-      public double ThumbOpacity { get; } = 0.5D;
+      public double ThumbOpacity { get; } = 0.0D;
 
-      public Brush ThumbColor { get; } = new SolidColorBrush(Colors.Red);
+      public Brush ThumbColor { get; } = new SolidColorBrush(Colors.LightGray);
    }
 
 
@@ -71,21 +67,21 @@ namespace MovablePanel
 
 
       private Rect TopThumbRect => new Rect(0.0D,
-                                            0.0D,
+                                            -(_config.ThumbThickness / 2),
                                             DesiredSize.Width,
                                             _config.ThumbThickness);
 
       private Rect BottomThumbRect => new Rect(0.0D,
-                                               DesiredSize.Height - _config.ThumbThickness,
+                                               DesiredSize.Height - (_config.ThumbThickness / 2),
                                                DesiredSize.Width,
                                                _config.ThumbThickness);
 
-      private Rect LeftThumbRect => new Rect(0.0D,
+      private Rect LeftThumbRect => new Rect(-(_config.ThumbThickness / 2),
                                              0.0D,
                                              _config.ThumbThickness,
                                              DesiredSize.Height);
 
-      private Rect RightThumbRect => new Rect(DesiredSize.Width - _config.ThumbThickness,
+      private Rect RightThumbRect => new Rect(DesiredSize.Width - (_config.ThumbThickness / 2),
                                               0.0D,
                                               _config.ThumbThickness,
                                               DesiredSize.Height);
