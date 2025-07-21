@@ -28,16 +28,16 @@ namespace MovablePanel
       private void MainWindow_ContentRendered(object sender, EventArgs e)
       {
          // Adorn all elements of the main panel
-         RepositioningAdornerConfig btnConfig = new RepositioningAdornerConfig();
+         RepositionAdornerConfig btnConfig = new RepositionAdornerConfig();
          AdornerLayer.GetAdornerLayer(MyButton).Add(new RepositionAdorner(MyButton, btnConfig));
 
-         RepositioningAdornerConfig txtbxConfig = new RepositioningAdornerConfig();
+         RepositionAdornerConfig txtbxConfig = new RepositionAdornerConfig();
          AdornerLayer.GetAdornerLayer(MyTextBox).Add(new RepositionAdorner(MyTextBox, txtbxConfig));
 
-         RepositioningAdornerConfig rtxtbxConfig = new RepositioningAdornerConfig();
+         RepositionAdornerConfig rtxtbxConfig = new RepositionAdornerConfig();
          AdornerLayer.GetAdornerLayer(MyRichTextBox).Add(new RepositionAdorner(MyRichTextBox, rtxtbxConfig));
 
-         RepositioningAdornerConfig borderConfig = new RepositioningAdornerConfig();
+         RepositionAdornerConfig borderConfig = new RepositionAdornerConfig();
          AdornerLayer.GetAdornerLayer(MyBorder).Add(new RepositionAdorner(MyBorder, borderConfig));
       }
    }

@@ -16,7 +16,7 @@ namespace MovablePanel
    /// <summary>
    /// Configuration for the repositioning adorner
    /// </summary>
-   public class RepositioningAdornerConfig
+   public class RepositionAdornerConfig
    {
       public int ThumbThickness { get; } = 8;
 
@@ -59,7 +59,7 @@ namespace MovablePanel
       /// <summary>
       /// Configuration of adorner
       /// </summary>
-      private readonly RepositioningAdornerConfig _config;
+      private readonly RepositionAdornerConfig _config;
 
       /// <summary>
       /// Cache that holds coordinates for repositioning thumbs
@@ -85,7 +85,7 @@ namespace MovablePanel
       /// </summary>
       /// <param name="adornedElement">UIElement to adorn. Must be child of Canvas.</param>
       /// <param name="adornerConfig">Configuration of adorner</param>
-      public RepositionAdorner(UIElement adornedElement, RepositioningAdornerConfig adornerConfig) : base(adornedElement)
+      public RepositionAdorner(UIElement adornedElement, RepositionAdornerConfig adornerConfig) : base(adornedElement)
       {
          _config = adornerConfig;
 
