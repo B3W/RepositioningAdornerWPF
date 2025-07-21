@@ -29,7 +29,7 @@ namespace MovablePanel
    /// <summary>
    /// Adorner that allows for repositioning of the adorned element
    /// </summary>
-   public class RepositioningAdorner : Adorner
+   public class RepositionAdorner : Adorner
    {
       /// <summary>
       /// Enumeration defining where each thumb resides in the thumbs array
@@ -81,11 +81,11 @@ namespace MovablePanel
       #region Methods
 
       /// <summary>
-      /// Constructs a RepositioningAdorner attached to the given UIElement
+      /// Constructs a RepositionAdorner attached to the given UIElement
       /// </summary>
       /// <param name="adornedElement">UIElement to adorn. Must be child of Canvas.</param>
       /// <param name="adornerConfig">Configuration of adorner</param>
-      public RepositioningAdorner(UIElement adornedElement, RepositioningAdornerConfig adornerConfig) : base(adornedElement)
+      public RepositionAdorner(UIElement adornedElement, RepositioningAdornerConfig adornerConfig) : base(adornedElement)
       {
          _config = adornerConfig;
 
