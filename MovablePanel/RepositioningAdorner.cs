@@ -61,6 +61,11 @@ namespace MovablePanel
       /// </summary>
       private readonly RepositioningAdornerConfig _config;
 
+      /// <summary>
+      /// Cache that holds coordinates for repositioning thumbs
+      /// </summary>
+      private readonly Rect[] _thumbCoordinates;
+
       #endregion // Fields
 
 
@@ -70,32 +75,16 @@ namespace MovablePanel
       // Allows WPF framework to interface with this adorner's visual collection
       protected override int VisualChildrenCount => _visualChildren.Count;
 
-
-      private Rect TopThumbRect => new Rect(0.0D,
-                                            -(_config.ThumbThickness / 2),
-                                            DesiredSize.Width,
-                                            _config.ThumbThickness);
-
-      private Rect BottomThumbRect => new Rect(0.0D,
-                                               DesiredSize.Height - (_config.ThumbThickness / 2),
-                                               DesiredSize.Width,
-                                               _config.ThumbThickness);
-
-      private Rect LeftThumbRect => new Rect(-(_config.ThumbThickness / 2),
-                                             0.0D,
-                                             _config.ThumbThickness,
-                                             DesiredSize.Height);
-
-      private Rect RightThumbRect => new Rect(DesiredSize.Width - (_config.ThumbThickness / 2),
-                                              0.0D,
-                                              _config.ThumbThickness,
-                                              DesiredSize.Height);
-
       #endregion // Properties
 
 
       #region Methods
 
+      /// <summary>
+      /// Constructs a RepositioningAdorner attached to the given UIElement
+      /// </summary>
+      /// <param name="adornedElement">UIElement to adorn. Must be child of Canvas.</param>
+      /// <param name="adornerConfig">Configuration of adorner</param>
       public RepositioningAdorner(UIElement adornedElement, RepositioningAdornerConfig adornerConfig) : base(adornedElement)
       {
          _config = adornerConfig;
@@ -119,16 +108,34 @@ namespace MovablePanel
          {
             _ = _visualChildren.Add(thumb);
          }
+
+         // Create starting coordinates for all thumbs that will be updated in ArrangeOverride
+         _thumbCoordinates = new Rect[(int)ThumbIndex.NumThumbs];
+
+         _thumbCoordinates[(int)ThumbIndex.Top]    = new Rect(                         0.0D, -(_config.ThumbThickness / 2),                   0.0D, _config.ThumbThickness);
+         _thumbCoordinates[(int)ThumbIndex.Bottom] = new Rect(                         0.0D,                          0.0D,                   0.0D, _config.ThumbThickness);
+         _thumbCoordinates[(int)ThumbIndex.Left]   = new Rect(-(_config.ThumbThickness / 2),                          0.0D, _config.ThumbThickness,                   0.0D);
+         _thumbCoordinates[(int)ThumbIndex.Right]  = new Rect(                         0.0D,                          0.0D, _config.ThumbThickness,                   0.0D);
       }
 
 
-
+      // Overriding FrameworkElement method to place adorners in correct location
       protected override Size ArrangeOverride(Size finalSize)
       {
-         _repositionThumbs[(int)ThumbIndex.Top].Arrange(TopThumbRect);
-         _repositionThumbs[(int)ThumbIndex.Bottom].Arrange(BottomThumbRect);
-         _repositionThumbs[(int)ThumbIndex.Left].Arrange(LeftThumbRect);
-         _repositionThumbs[(int)ThumbIndex.Right].Arrange(RightThumbRect);
+         // Calculate new coordinates for thumbs
+         // NOTE: Use 'finalSize' instead of 'DesiredSize'. 'DesiredSize' does not behave well with zooming
+         _thumbCoordinates[(int)ThumbIndex.Top].Width = finalSize.Width;
+         _thumbCoordinates[(int)ThumbIndex.Bottom].Y = finalSize.Height - (_config.ThumbThickness / 2);
+         _thumbCoordinates[(int)ThumbIndex.Bottom].Width = finalSize.Width;
+         _thumbCoordinates[(int)ThumbIndex.Left].Height = finalSize.Height;
+         _thumbCoordinates[(int)ThumbIndex.Right].X = finalSize.Width - (_config.ThumbThickness / 2);
+         _thumbCoordinates[(int)ThumbIndex.Right].Height = finalSize.Height;
+
+         // Apply new coordinates to thumbs
+         _repositionThumbs[(int)ThumbIndex.Top].Arrange(_thumbCoordinates[(int)ThumbIndex.Top]);
+         _repositionThumbs[(int)ThumbIndex.Bottom].Arrange(_thumbCoordinates[(int)ThumbIndex.Bottom]);
+         _repositionThumbs[(int)ThumbIndex.Left].Arrange(_thumbCoordinates[(int)ThumbIndex.Left]);
+         _repositionThumbs[(int)ThumbIndex.Right].Arrange(_thumbCoordinates[(int)ThumbIndex.Right]);
 
          return finalSize;
       }
@@ -163,14 +170,22 @@ namespace MovablePanel
       }
 
 
-
+      /// <summary>
+      /// Handler for Thumb DragStarted event
+      /// </summary>
+      /// <param name="sender">Thumb which started drag</param>
+      /// <param name="e">Information on drag start</param>
       private void OnDragStarted(object sender, DragStartedEventArgs e)
       {
-         // TODO
+         // Implement as needed
       }
 
 
-
+      /// <summary>
+      /// Handler for Thumb DragDelta event
+      /// </summary>
+      /// <param name="sender">Thumb which was dragged</param>
+      /// <param name="e">Information on drag</param>
       private void OnDragDelta(object sender, DragDeltaEventArgs e)
       {
          // Apply the change in position
@@ -179,10 +194,14 @@ namespace MovablePanel
       }
 
 
-
+      /// <summary>
+      /// Handler for Thumb DragCompleted event
+      /// </summary>
+      /// <param name="sender">Thumb which was dragged</param>
+      /// <param name="e">Information on drag completion</param>
       private void OnDragCompleted(object sender, DragCompletedEventArgs e)
       {
-         // TODO
+         // Implement as needed
       }
 
       #endregion // Methods
