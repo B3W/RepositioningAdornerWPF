@@ -1,4 +1,9 @@
-﻿using System.Windows.Controls.Primitives;
+﻿//
+// Copyright (c) 2025 Weston Berg
+//
+// SPDX-License-Identifier: MIT
+//
+using System.Windows.Controls.Primitives;
 
 namespace MovablePanel
 {
