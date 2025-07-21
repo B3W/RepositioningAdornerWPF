@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+// Copyright (c) 2025 Weston Berg
+//
+// SPDX-License-Identifier: MIT
+//
+using System;
 using System.Windows;
 using System.Windows.Documents;
 
@@ -14,6 +19,10 @@ namespace MovablePanel
          ContentRendered += MainWindow_ContentRendered;
 
          InitializeComponent();
+
+         // Add text to the RichTextBox
+         MyRichTextBox.Document.Blocks.Clear();
+         MyRichTextBox.Document.Blocks.Add(new Paragraph(new Run("RICHTEXTBOX")));
       }
 
       private void MainWindow_ContentRendered(object sender, EventArgs e)
